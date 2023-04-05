@@ -28,14 +28,14 @@ export const getUserById = async (req: Request, res: Response): Promise<Response
 };
 
 export const createUser = async (req: Request, res: Response): Promise<Response> => {
-    const { name, lastname, email, password, role, isactive, createdat } = req.body;
+    const { name, lastname, email, password, codigosector, isactive, createdat } = req.body;
     try {
-        const response: QueryResult = await pool.query('INSERT INTO users (name, lastname, email, password, role, isactive, createdat) VALUES ($1, $2, $3, $4, $5, $6, $7)', [
+        const response: QueryResult = await pool.query('INSERT INTO users (name, lastname, email, password, codigosector, isactive, createdat) VALUES ($1, $2, $3, $4, $5, $6, $7)', [
             name, 
             lastname, 
             email, 
             password, 
-            role, 
+            codigosector, 
             isactive, 
             createdat
         ]);
@@ -48,7 +48,7 @@ export const createUser = async (req: Request, res: Response): Promise<Response>
                     lastname, 
                     email, 
                     password, 
-                    role, 
+                    codigosector, 
                     isactive, 
                     createdat 
                 }
@@ -63,14 +63,14 @@ export const createUser = async (req: Request, res: Response): Promise<Response>
 
 export const updateUser = async (req: Request, res: Response): Promise<Response> => {
     const id = parseInt(req.params.id);
-    const { name, lastname, email, password, role, isactive, createdat } = req.body;
+    const { name, lastname, email, password, codigosector, isactive, createdat } = req.body;
     try{
-        const response: QueryResult = await pool.query('UPDATE users SET name = $1, lastname = $2, email = $3, password = $4, role = $5, isactive = $6, createdat = $7 WHERE id = $8', [
+        const response: QueryResult = await pool.query('UPDATE users SET name = $1, lastname = $2, email = $3, password = $4, codigosector = $5, isactive = $6, createdat = $7 WHERE id = $8', [
         name, 
         lastname, 
         email, 
         password, 
-        role, 
+        codigosector, 
         isactive, 
         createdat,
         id
@@ -92,7 +92,7 @@ export const updateUser = async (req: Request, res: Response): Promise<Response>
                     lastname, 
                     email, 
                     password, 
-                    role, 
+                    codigosector, 
                     isactive, 
                     createdat 
                 }
