@@ -39,14 +39,14 @@ const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 });
 exports.getUserById = getUserById;
 const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, lastname, email, password, role, isactive, createdat } = req.body;
+    const { name, lastname, email, password, codigosector, isactive, createdat } = req.body;
     try {
-        const response = yield postgres_1.pool.query('INSERT INTO users (name, lastname, email, password, role, isactive, createdat) VALUES ($1, $2, $3, $4, $5, $6, $7)', [
+        const response = yield postgres_1.pool.query('INSERT INTO users (name, lastname, email, password, codigosector, isactive, createdat) VALUES ($1, $2, $3, $4, $5, $6, $7)', [
             name,
             lastname,
             email,
             password,
-            role,
+            codigosector,
             isactive,
             createdat
         ]);
@@ -58,7 +58,7 @@ const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                     lastname,
                     email,
                     password,
-                    role,
+                    codigosector,
                     isactive,
                     createdat
                 }
@@ -73,14 +73,14 @@ const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.createUser = createUser;
 const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = parseInt(req.params.id);
-    const { name, lastname, email, password, role, isactive, createdat } = req.body;
+    const { name, lastname, email, password, codigosector, isactive, createdat } = req.body;
     try {
-        const response = yield postgres_1.pool.query('UPDATE users SET name = $1, lastname = $2, email = $3, password = $4, role = $5, isactive = $6, createdat = $7 WHERE id = $8', [
+        const response = yield postgres_1.pool.query('UPDATE users SET name = $1, lastname = $2, email = $3, password = $4, codigosector = $5, isactive = $6, createdat = $7 WHERE id = $8', [
             name,
             lastname,
             email,
             password,
-            role,
+            codigosector,
             isactive,
             createdat,
             id
@@ -102,7 +102,7 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                     lastname,
                     email,
                     password,
-                    role,
+                    codigosector,
                     isactive,
                     createdat
                 }

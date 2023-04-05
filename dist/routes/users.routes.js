@@ -23,9 +23,9 @@ const router = (0, express_1.Router)();
  *        password:
  *          type: string
  *          description: the password user
- *        role:
- *          type: integer
- *          description: the role user
+ *        codigosector:
+ *          type: smallint
+ *          description: the code sector user
  *        isactive:
  *          type: boolean
  *          description: isactive user
@@ -37,7 +37,7 @@ const router = (0, express_1.Router)();
  *          - lastname
  *          - email
  *          - password
- *          - role
+ *          - codigosector
  *          - isactive
  *          - createdat
  *      example:
@@ -45,7 +45,7 @@ const router = (0, express_1.Router)();
  *          lastname: Deep
  *          email: johndeep@email.com
  *          password: 123456
- *          role: 1
+ *          codigosector: 5
  *          isactive: true
  *          createdat: 2023/04/01 18:47:00.59
  *    UserNotFound:
