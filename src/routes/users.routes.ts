@@ -1,5 +1,6 @@
 import { Router } from "express";
-import { getUsers, getUserById, createUser, updateUser, deleteUser } from '../controllers/users.controller';
+import verifyToken from '../middlewares/authJwt'
+import { getUsers, getUserById, updateUser, deleteUser } from '../controllers/users.controller';
 
 const router = Router()
 
@@ -44,18 +45,18 @@ const router = Router()
  *          name: John 
  *          lastname: Deep
  *          email: johndeep@email.com
- *          password: 123456
+ *          password: $2b$10$m4hzNB7PdDdGgfn2379cZ.A6sZHKRGgh5UDCAimfdL1DIS2KmWoFK
  *          codigosector: 5
  *          isactive: true
  *          createdat: 2023/04/01 18:47:00.59
- *    UserNotFound:
+ *    ServerNotFound:
  *      type: object
  *      properties:
- *        msg:
+ *        message:
  *          type: string
- *          description: A message for the not found user
+ *          description: A message for the not found server
  *      example:
- *        msg: Internal Server error
+ *        message: Internal Server error
  *  parameters:
  *    userId:
  *      in: path
@@ -63,7 +64,7 @@ const router = Router()
  *      required: true
  *      schema:
  *        type: string
- *      description: The user id
+ *      description: User id
  */
 
 /**
@@ -80,7 +81,7 @@ const router = Router()
 *    tags: [Users]  
 *    responses:
 *         200:
-*           description: Ok.
+*           description: Ok
 *           content:
 *             application/json:
 *                schema:
@@ -102,46 +103,46 @@ router.get('/users', getUsers);
  *      - $ref: '#/components/parameters/userId'
  *    responses:
  *      200:
- *        description: Ok.
+ *        description: Ok
  *        content:
  *          application/json:
  *            schema:
  *              $ref: '#/components/schemas/User'
  *      500:
- *        description: the user was not found
+ *        description: server not found
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/UserNotFound'
+ *              $ref: '#/components/schemas/ServerNotFound'
  */
 router.get('/users/:id', getUserById);
 
 
-/**
-* @swagger
-* /api/v1/users:
-*  post:
-*    summary: Create user
-*    tags: [Users]
-*    requestBody:
-*       required: true
-*       content:
-*         application/json:
-*           schema:
-*             $ref: '#/components/schemas/User'       
-*    responses:
-*         200:
-*           description: Ok.
-*           content:
-*             application/json:
-*                schema:
-*                  type: array
-*                  items: 
-*                    $ref: '#/components/schemas/User'
-*         500:
-*           description: Server not found.
- */
-router.post('/users', createUser);
+// /**
+// * @swagger
+// * /api/v1/users:
+// *  post:
+// *    summary: Create user
+// *    tags: [Users]
+// *    requestBody:
+// *       required: true
+// *       content:
+// *         application/json:
+// *           schema:
+// *             $ref: '#/components/schemas/User'       
+// *    responses:
+// *         200:
+// *           description: Ok
+// *           content:
+// *             application/json:
+// *                schema:
+// *                  type: array
+// *                  items: 
+// *                    $ref: '#/components/schemas/User'
+// *         500:
+// *           description: Server not found.
+//  */
+// router.post('/users', createUser);
 
 /**
  * @swagger
@@ -159,17 +160,17 @@ router.post('/users', createUser);
  *            $ref: '#/components/schemas/User'
  *    responses:
  *      200:
- *        description: Usuario actualizado. 
+ *        description: Ok 
  *        content:
  *          application/json:
  *            schema:
  *            $ref: '#/components/schemas/User'
- *      404:
- *        description: Usuario no encontrado.
+ *      500:
+ *        description: the server not found
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/UserNotFound'
+ *              $ref: '#/components/schemas/ServerNotFound'
  *
  */
 router.put('/users/:id', updateUser)
@@ -184,17 +185,17 @@ router.put('/users/:id', updateUser)
  *      - $ref: '#/components/parameters/userId'
  *    responses:
  *      200:
- *        description: Ok.
+ *        description: Ok
  *        content:
  *          application/json:
  *            schema:
  *              $ref: '#/components/schemas/User'
- *      404:
- *        description: Usuario no encontrado.
+ *      500:
+ *        description: the server not found
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/UserNotFound'
+ *              $ref: '#/components/schemas/ServerNotFound'
  */
 router.delete('/users/:id', deleteUser);
 

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUser = exports.updateUser = exports.getUserById = exports.getUsers = void 0;
+exports.deleteUser = exports.updateUser = exports.createUser = exports.getUserById = exports.getUsers = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const postgres_1 = require("../database/postgres");
 const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -42,6 +42,42 @@ const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.getUserById = getUserById;
+const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { name, lastname, email, password, codigosector, isactive, createdat } = req.body;
+    // hash contraseña
+    const salt = yield bcrypt_1.default.genSalt(10);
+    const clave = yield bcrypt_1.default.hash(password, salt);
+    try {
+        const response = yield postgres_1.pool.query('INSERT INTO users (name, lastname, email, password, codigosector, isactive, createdat) VALUES ($1, $2, $3, $4, $5, $6, $7)', [
+            name,
+            lastname,
+            email,
+            clave,
+            codigosector,
+            isactive,
+            createdat
+        ]);
+        return res.status(200).json({
+            message: 'Usuario agregado exitosamente!',
+            body: {
+                user: {
+                    name,
+                    lastname,
+                    email,
+                    password: clave,
+                    codigosector,
+                    isactive,
+                    createdat
+                }
+            }
+        });
+    }
+    catch (e) {
+        console.log(e);
+        return res.status(500).json({ message: 'Internal Server error' });
+    }
+});
+exports.createUser = createUser;
 const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = parseInt(req.params.id);
     const { name, lastname, email, password, codigosector, isactive, createdat } = req.body;
@@ -63,7 +99,10 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             return res.status(404).json({
                 message: 'Usuario no encontrado.'
             });
+        //console.log(response)
         const data = yield postgres_1.pool.query('SELECT * FROM users WHERE id=$1', [id]);
+        console.log(data.rows);
+        //return res.status(200).json(data.rows);
         return res.status(200).json({
             message: 'Usuario actualizado exitosamente!',
             body: {

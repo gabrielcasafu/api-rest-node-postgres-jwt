@@ -1,6 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
+const authJwt_1 = __importDefault(require("../middlewares/authJwt"));
 const users_controller_1 = require("../controllers/users.controller");
 const router = (0, express_1.Router)();
 //schema
@@ -88,7 +92,7 @@ const router = (0, express_1.Router)();
 *         500:
 *           description: Server not found
  */
-router.get('/users', users_controller_1.getUsers);
+router.get('/users', authJwt_1.default, users_controller_1.getUsers);
 /**
  * @swagger
  * /api/v1/users/{id}:
